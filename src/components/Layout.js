@@ -1,6 +1,5 @@
 import Box from "@material-ui/core/Box";
 import { styled } from "@material-ui/core/styles";
-import { useState } from "react";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 
@@ -18,11 +17,10 @@ const Container = styled("div")({
 });
 
 const Layout = ({ children }) => {
-	const [drawerWidth, setDrawerWidth] = useState(120);
 	return (
 		<Container>
-			<Sidebar drawerwidth={drawerWidth} />
-			<Navbar drawerwidth={drawerWidth} setDrawerWidth={setDrawerWidth} />
+			<Sidebar />
+			<Navbar />
 			<StyledBox component="main">{children}</StyledBox>
 		</Container>
 	);

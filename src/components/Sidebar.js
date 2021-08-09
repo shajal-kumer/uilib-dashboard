@@ -9,8 +9,9 @@ import { sidebarListItems } from "../../data/db";
 import { SidebarToogleCtx } from "../../pages/_app";
 import SidebarSingleMenu from "./SidebarSingleMenu";
 
-const DrawerStyle = styled(Drawer, { shouldForwardProp: (prop) => prop })(({ drawerwidth, theme }) => ({
+const StyledDrawer = styled(Drawer, { shouldForwardProp: (prop) => prop })(({ drawerwidth, visibility, theme }) => ({
 	width: drawerwidth,
+	visibility: visibility,
 	"& .MuiDrawer-paper": {
 		color: theme.palette.text.secondary,
 		backgroundColor: theme.palette.primary.main,
@@ -37,24 +38,26 @@ const StyledToolbar = styled(Toolbar)({
 	justifyContent: "center",
 });
 
-const Sidebar = ({ drawerwidth }) => {
-	const { isSidebarOpen } = useContext(SidebarToogleCtx);
+const Sidebar = () => {
+	const { drawerWidth, toggleSidebar } = useContext(SidebarToogleCtx);
 
 	return (
-		<DrawerStyle anchor="left" open={isSidebarOpen} variant="persistent" drawerwidth={drawerwidth}>
-			<StyledToolbar>
-				<StyledTypography variant="h2">
-					<Link href="/" passHref>
-						<StyledAnchor>Gull</StyledAnchor>
-					</Link>
-				</StyledTypography>
-			</StyledToolbar>
-			<StyledList>
-				{sidebarListItems.map(({ id, icon, text, path }) => (
-					<SidebarSingleMenu key={id} icon={icon} text={text} path={path} />
-				))}
-			</StyledList>
-		</DrawerStyle>
+		<>
+			<StyledDrawer anchor="left" open={toggleSidebar} variant="persistent" drawerwidth={drawerWidth}>
+				<StyledToolbar>
+					<StyledTypography variant="h2">
+						<Link href="/" passHref>
+							<StyledAnchor>Gull</StyledAnchor>
+						</Link>
+					</StyledTypography>
+				</StyledToolbar>
+				<StyledList>
+					{sidebarListItems.map(({ id, icon, text, path }) => (
+						<SidebarSingleMenu key={id} icon={icon} text={text} path={path} />
+					))}
+				</StyledList>
+			</StyledDrawer>
+		</>
 	);
 };
 

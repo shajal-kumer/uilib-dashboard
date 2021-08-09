@@ -22,9 +22,13 @@ const Search = styled("div")(({ theme }) => ({
 	alignItems: "center",
 	padding: "0 30px",
 	[theme.breakpoints.down("sm")]: {
-		height: "40px",
 		marginLeft: "10px",
 		padding: "0 20px",
+	},
+	[theme.breakpoints.down("md")]: {
+		width: "100%",
+		flexGrow: 1,
+		height: "46px",
 	},
 }));
 
@@ -59,11 +63,17 @@ const StyledAppBar = styled(AppBar, { shouldForwardProp: (prop) => prop })(({ dr
 	};
 });
 
-const StyledBox = styled(Box)({
+const StyledBox = styled(Box)(({ theme }) => ({
 	display: "flex",
 	alignItems: "center",
-	"& .MuiButtonBase-root": { marginLeft: "4px" },
-});
+	"& .MuiButtonBase-root": {
+		marginLeft: "20px",
+		padding: "0",
+		[theme.breakpoints.down("sm")]: {
+			marginLeft: "10px",
+		},
+	},
+}));
 
 const StyledAvatar = styled(Avatar)(({ theme }) => ({
 	width: "60px",
@@ -88,47 +98,44 @@ const StyledBadge = styled(Badge)({
 	},
 });
 
-const StyledIconButton = styled(IconButton)({
-	display: { xs: "none", sm: "inline-flex" },
-});
-const StyledAvatarIconButton = styled(IconButton)({
-	marginRight: "-8px",
-});
-
-const Navbar = ({ drawerwidth, setDrawerWidth }) => {
-	const { isSidebarOpen, setIsSidebarOpen } = useContext(SidebarToogleCtx);
+const Navbar = () => {
+	const { toggleSidebar, setToggleSidebar, drawerWidth, setDrawerWidth } = useContext(SidebarToogleCtx);
 
 	const handleToogleSidebar = () => {
-		setIsSidebarOpen(!isSidebarOpen);
-		if (isSidebarOpen) setDrawerWidth(0);
-		else setDrawerWidth(120);
+		setToggleSidebar(!toggleSidebar);
+		if (toggleSidebar) {
+			setDrawerWidth(0);
+		} else {
+			setDrawerWidth(120);
+		}
 	};
 	return (
 		<Box>
-			<StyledAppBar drawerwidth={drawerwidth} color="transparent" elevation={0} position="absolute">
-				<Toolbar>
-					<IconButton color="primary" onClick={handleToogleSidebar}>
-						<Image src="/menu-icon.svg" alt="Menu Icon" width="16" height="13" />
-					</IconButton>
-					<Search>
-						<SearchIconWrapper>
-							<Image src="/search-icon.svg" alt="Search Icon" width="14" height="14" />
-						</SearchIconWrapper>
-						<StyledInputBase placeholder="Search…" />
-					</Search>
-					<Box sx={{ flexGrow: 1 }} />
+			<StyledAppBar drawerwidth={drawerWidth} color="transparent" elevation={0} position="absolute">
+				<Toolbar sx={{ justifyContent: "space-between" }}>
+					<Box sx={{ display: "flex", alignItems: "center", flexGrow: { xs: 1 } }}>
+						<IconButton color="primary" onClick={handleToogleSidebar}>
+							<Image src="/menu-icon.svg" alt="Menu Icon" width="16" height="13" />
+						</IconButton>
+						<Search>
+							<SearchIconWrapper>
+								<Image src="/search-icon.svg" alt="Search Icon" width="14" height="14" />
+							</SearchIconWrapper>
+							<StyledInputBase placeholder="Search…" />
+						</Search>
+					</Box>
 					<StyledBox>
-						<StyledIconButton color="primary">
+						<IconButton color="primary" sx={{ display: { xs: "none", sm: "flex" } }}>
 							<Image src="/arrow-cross-icon.svg" alt="Search Icon" width="16" height="18" />
-						</StyledIconButton>
-						<StyledIconButton color="primary">
+						</IconButton>
+						<IconButton color="primary" sx={{ display: { xs: "none", sm: "flex" } }}>
 							<StyledBadge badgeContent={3} color="primary">
 								<Image src="/bell-icon.svg" alt="Notification Icon" width="16" height="18" />
 							</StyledBadge>
-						</StyledIconButton>
-						<StyledAvatarIconButton>
+						</IconButton>
+						<IconButton>
 							<StyledAvatar src="/avatar.jpg" alt="Avatar image" />
-						</StyledAvatarIconButton>
+						</IconButton>
 					</StyledBox>
 				</Toolbar>
 			</StyledAppBar>
