@@ -1,5 +1,11 @@
+import Meta from "../src/components/Meta";
 const Crop = () => {
-	return <h2>This page dummy content of Crop</h2>;
+	return (
+		<>
+			<Meta title="Crop Page" />
+			<h2>This page dummy content of Crop</h2>
+		</>
+	);
 };
 
 export default Crop;
